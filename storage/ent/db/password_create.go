@@ -43,6 +43,12 @@ func (pc *PasswordCreate) SetUserID(s string) *PasswordCreate {
 	return pc
 }
 
+// SetGroups sets the "groups" field.
+func (pc *PasswordCreate) SetGroups(s string) *PasswordCreate {
+	pc.mutation.SetGroups(s)
+	return pc
+}
+
 // Mutation returns the PasswordMutation object of the builder.
 func (pc *PasswordCreate) Mutation() *PasswordMutation {
 	return pc.mutation
@@ -104,6 +110,9 @@ func (pc *PasswordCreate) check() error {
 			return &ValidationError{Name: "user_id", err: fmt.Errorf(`db: validator failed for field "Password.user_id": %w`, err)}
 		}
 	}
+	if _, ok := pc.mutation.Groups(); !ok {
+		return &ValidationError{Name: "groups", err: errors.New(`db: missing required field "Password.groups"`)}
+	}
 	return nil
 }
 
@@ -145,6 +154,10 @@ func (pc *PasswordCreate) createSpec() (*Password, *sqlgraph.CreateSpec) {
 	if value, ok := pc.mutation.UserID(); ok {
 		_spec.SetField(password.FieldUserID, field.TypeString, value)
 		_node.UserID = value
+	}
+	if value, ok := pc.mutation.Groups(); ok {
+		_spec.SetField(password.FieldGroups, field.TypeString, value)
+		_node.Groups = value
 	}
 	return _node, _spec
 }

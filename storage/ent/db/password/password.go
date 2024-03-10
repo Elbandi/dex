@@ -19,6 +19,8 @@ const (
 	FieldUsername = "username"
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
+	// FieldGroups holds the string denoting the groups field in the database.
+	FieldGroups = "groups"
 	// Table holds the table name of the password in the database.
 	Table = "passwords"
 )
@@ -30,6 +32,7 @@ var Columns = []string{
 	FieldHash,
 	FieldUsername,
 	FieldUserID,
+	FieldGroups,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -72,4 +75,9 @@ func ByUsername(opts ...sql.OrderTermOption) OrderOption {
 // ByUserID orders the results by the user_id field.
 func ByUserID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUserID, opts...).ToFunc()
+}
+
+// ByGroups orders the results by the groups field.
+func ByGroups(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldGroups, opts...).ToFunc()
 }

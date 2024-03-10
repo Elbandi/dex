@@ -72,6 +72,11 @@ func UserID(v string) predicate.Password {
 	return predicate.Password(sql.FieldEQ(FieldUserID, v))
 }
 
+// Groups applies equality check predicate on the "groups" field. It's identical to GroupsEQ.
+func Groups(v string) predicate.Password {
+	return predicate.Password(sql.FieldEQ(FieldGroups, v))
+}
+
 // EmailEQ applies the EQ predicate on the "email" field.
 func EmailEQ(v string) predicate.Password {
 	return predicate.Password(sql.FieldEQ(FieldEmail, v))
@@ -305,6 +310,71 @@ func UserIDEqualFold(v string) predicate.Password {
 // UserIDContainsFold applies the ContainsFold predicate on the "user_id" field.
 func UserIDContainsFold(v string) predicate.Password {
 	return predicate.Password(sql.FieldContainsFold(FieldUserID, v))
+}
+
+// GroupsEQ applies the EQ predicate on the "groups" field.
+func GroupsEQ(v string) predicate.Password {
+	return predicate.Password(sql.FieldEQ(FieldGroups, v))
+}
+
+// GroupsNEQ applies the NEQ predicate on the "groups" field.
+func GroupsNEQ(v string) predicate.Password {
+	return predicate.Password(sql.FieldNEQ(FieldGroups, v))
+}
+
+// GroupsIn applies the In predicate on the "groups" field.
+func GroupsIn(vs ...string) predicate.Password {
+	return predicate.Password(sql.FieldIn(FieldGroups, vs...))
+}
+
+// GroupsNotIn applies the NotIn predicate on the "groups" field.
+func GroupsNotIn(vs ...string) predicate.Password {
+	return predicate.Password(sql.FieldNotIn(FieldGroups, vs...))
+}
+
+// GroupsGT applies the GT predicate on the "groups" field.
+func GroupsGT(v string) predicate.Password {
+	return predicate.Password(sql.FieldGT(FieldGroups, v))
+}
+
+// GroupsGTE applies the GTE predicate on the "groups" field.
+func GroupsGTE(v string) predicate.Password {
+	return predicate.Password(sql.FieldGTE(FieldGroups, v))
+}
+
+// GroupsLT applies the LT predicate on the "groups" field.
+func GroupsLT(v string) predicate.Password {
+	return predicate.Password(sql.FieldLT(FieldGroups, v))
+}
+
+// GroupsLTE applies the LTE predicate on the "groups" field.
+func GroupsLTE(v string) predicate.Password {
+	return predicate.Password(sql.FieldLTE(FieldGroups, v))
+}
+
+// GroupsContains applies the Contains predicate on the "groups" field.
+func GroupsContains(v string) predicate.Password {
+	return predicate.Password(sql.FieldContains(FieldGroups, v))
+}
+
+// GroupsHasPrefix applies the HasPrefix predicate on the "groups" field.
+func GroupsHasPrefix(v string) predicate.Password {
+	return predicate.Password(sql.FieldHasPrefix(FieldGroups, v))
+}
+
+// GroupsHasSuffix applies the HasSuffix predicate on the "groups" field.
+func GroupsHasSuffix(v string) predicate.Password {
+	return predicate.Password(sql.FieldHasSuffix(FieldGroups, v))
+}
+
+// GroupsEqualFold applies the EqualFold predicate on the "groups" field.
+func GroupsEqualFold(v string) predicate.Password {
+	return predicate.Password(sql.FieldEqualFold(FieldGroups, v))
+}
+
+// GroupsContainsFold applies the ContainsFold predicate on the "groups" field.
+func GroupsContainsFold(v string) predicate.Password {
+	return predicate.Password(sql.FieldContainsFold(FieldGroups, v))
 }
 
 // And groups predicates with the AND operator between them.

@@ -354,6 +354,8 @@ type Password struct {
 
 	// Randomly generated user ID. This is NOT the primary ID of the Password object.
 	UserID string `json:"userID"`
+
+	Groups string `json:"groups,omitempty"`
 }
 
 // Connector is an object that contains the metadata about connectors used to login to Dex.
