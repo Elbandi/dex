@@ -11,7 +11,8 @@ create table password
     email    text not null  primary key,
     hash     blob not null,
     username text not null,
-    user_id  text not null
+    user_id  text not null,
+    groups   text
 );
 */
 
@@ -35,6 +36,8 @@ func (Password) Fields() []ent.Field {
 		field.Text("user_id").
 			SchemaType(textSchema).
 			NotEmpty(),
+		field.Text("groups").
+			SchemaType(textSchema),
 	}
 }
 

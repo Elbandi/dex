@@ -75,6 +75,20 @@ func (pu *PasswordUpdate) SetNillableUserID(s *string) *PasswordUpdate {
 	return pu
 }
 
+// SetGroups sets the "groups" field.
+func (pu *PasswordUpdate) SetGroups(s string) *PasswordUpdate {
+	pu.mutation.SetGroups(s)
+	return pu
+}
+
+// SetNillableGroups sets the "groups" field if the given value is not nil.
+func (pu *PasswordUpdate) SetNillableGroups(s *string) *PasswordUpdate {
+	if s != nil {
+		pu.SetGroups(*s)
+	}
+	return pu
+}
+
 // Mutation returns the PasswordMutation object of the builder.
 func (pu *PasswordUpdate) Mutation() *PasswordMutation {
 	return pu.mutation
@@ -151,6 +165,9 @@ func (pu *PasswordUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := pu.mutation.UserID(); ok {
 		_spec.SetField(password.FieldUserID, field.TypeString, value)
 	}
+	if value, ok := pu.mutation.Groups(); ok {
+		_spec.SetField(password.FieldGroups, field.TypeString, value)
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, pu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{password.Label}
@@ -215,6 +232,20 @@ func (puo *PasswordUpdateOne) SetUserID(s string) *PasswordUpdateOne {
 func (puo *PasswordUpdateOne) SetNillableUserID(s *string) *PasswordUpdateOne {
 	if s != nil {
 		puo.SetUserID(*s)
+	}
+	return puo
+}
+
+// SetGroups sets the "groups" field.
+func (puo *PasswordUpdateOne) SetGroups(s string) *PasswordUpdateOne {
+	puo.mutation.SetGroups(s)
+	return puo
+}
+
+// SetNillableGroups sets the "groups" field if the given value is not nil.
+func (puo *PasswordUpdateOne) SetNillableGroups(s *string) *PasswordUpdateOne {
+	if s != nil {
+		puo.SetGroups(*s)
 	}
 	return puo
 }
@@ -324,6 +355,9 @@ func (puo *PasswordUpdateOne) sqlSave(ctx context.Context) (_node *Password, err
 	}
 	if value, ok := puo.mutation.UserID(); ok {
 		_spec.SetField(password.FieldUserID, field.TypeString, value)
+	}
+	if value, ok := puo.mutation.Groups(); ok {
+		_spec.SetField(password.FieldGroups, field.TypeString, value)
 	}
 	_node = &Password{config: puo.config}
 	_spec.Assign = _node.assignValues
