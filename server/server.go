@@ -528,10 +528,11 @@ func (db passwordDB) Login(ctx context.Context, s connector.Scopes, email, passw
 		return connector.Identity{}, false, nil
 	}
 	return connector.Identity{
-		UserID:        p.UserID,
-		Username:      p.Username,
-		Email:         p.Email,
-		EmailVerified: true,
+		UserID:            p.UserID,
+		Username:          p.Username,
+		PreferredUsername: p.Username,
+		Email:             p.Email,
+		EmailVerified:     true,
 	}, true, nil
 }
 
@@ -556,6 +557,7 @@ func (db passwordDB) Refresh(ctx context.Context, s connector.Scopes, identity c
 	// No other fields are expected to be refreshable as email is effectively used
 	// as an ID and this implementation doesn't deal with groups.
 	identity.Username = p.Username
+	identity.PreferredUsername = p.Username
 
 	return identity, nil
 }
