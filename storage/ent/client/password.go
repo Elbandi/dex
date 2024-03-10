@@ -15,6 +15,7 @@ func (d *Database) CreatePassword(ctx context.Context, password storage.Password
 		SetHash(password.Hash).
 		SetUsername(password.Username).
 		SetUserID(password.UserID).
+		SetGroups(password.Groups).
 		Save(ctx)
 	if err != nil {
 		return convertDBError("create password: %w", err)

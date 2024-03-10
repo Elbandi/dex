@@ -23,7 +23,9 @@ type Password struct {
 	// Username holds the value of the "username" field.
 	Username string `json:"username,omitempty"`
 	// UserID holds the value of the "user_id" field.
-	UserID       string `json:"user_id,omitempty"`
+	UserID string `json:"user_id,omitempty"`
+	// Groups holds the value of the "groups" field.
+	Groups       string `json:"groups,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -36,7 +38,7 @@ func (*Password) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case password.FieldID:
 			values[i] = new(sql.NullInt64)
-		case password.FieldEmail, password.FieldUsername, password.FieldUserID:
+		case password.FieldEmail, password.FieldUsername, password.FieldUserID, password.FieldGroups:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -82,6 +84,12 @@ func (pa *Password) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
 				pa.UserID = value.String
+			}
+		case password.FieldGroups:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field groups", values[i])
+			} else if value.Valid {
+				pa.Groups = value.String
 			}
 		default:
 			pa.selectValues.Set(columns[i], values[i])
@@ -130,6 +138,9 @@ func (pa *Password) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("user_id=")
 	builder.WriteString(pa.UserID)
+	builder.WriteString(", ")
+	builder.WriteString("groups=")
+	builder.WriteString(pa.Groups)
 	builder.WriteByte(')')
 	return builder.String()
 }
