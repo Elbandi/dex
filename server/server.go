@@ -450,6 +450,13 @@ type passwordDB struct {
 	s storage.Storage
 }
 
+func getGroups(groups string) []string {
+	if len(groups) == 0 {
+		return []string{}
+	}
+	return strings.Split(groups, ",")
+}
+
 func (db passwordDB) Login(ctx context.Context, s connector.Scopes, email, password string) (connector.Identity, bool, error) {
 	p, err := db.s.GetPassword(email)
 	if err != nil {
@@ -472,7 +479,7 @@ func (db passwordDB) Login(ctx context.Context, s connector.Scopes, email, passw
 		PreferredUsername: p.Username,
 		Email:             p.Email,
 		EmailVerified:     true,
-		Groups:            strings.Split(p.Groups, ","),
+		Groups:            getGroups(p.Groups),
 	}, true, nil
 }
 
@@ -498,7 +505,7 @@ func (db passwordDB) Refresh(ctx context.Context, s connector.Scopes, identity c
 	// as an ID and this implementation doesn't deal with groups.
 	identity.Username = p.Username
 	identity.PreferredUsername = p.Username
-	identity.Groups = strings.Split(p.Groups, ",")
+	identity.Groups = getGroups(p.Groups)
 
 	return identity, nil
 }

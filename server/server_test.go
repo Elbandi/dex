@@ -1307,10 +1307,11 @@ func TestPasswordDB(t *testing.T) {
 			username: "jane@example.com",
 			password: pw,
 			wantIdentity: connector.Identity{
-				Email:         "jane@example.com",
-				Username:      "jane",
-				UserID:        "foobar",
-				EmailVerified: true,
+				Email:             "jane@example.com",
+				Username:          "jane",
+				PreferredUsername: "jane",
+				UserID:            "foobar",
+				EmailVerified:     true,
 			},
 		},
 		{
