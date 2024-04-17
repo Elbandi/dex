@@ -79,6 +79,7 @@ type discovery struct {
 	UserInfo          string   `json:"userinfo_endpoint"`
 	DeviceEndpoint    string   `json:"device_authorization_endpoint"`
 	Introspect        string   `json:"introspection_endpoint"`
+	EndSession        string   `json:"end_session_endpoint"`
 	GrantTypes        []string `json:"grant_types_supported"`
 	ResponseTypes     []string `json:"response_types_supported"`
 	Subjects          []string `json:"subject_types_supported"`
@@ -96,6 +97,7 @@ func (s *Server) discoveryHandler() (http.HandlerFunc, error) {
 		Token:             s.absURL("/token"),
 		Keys:              s.absURL("/keys"),
 		UserInfo:          s.absURL("/userinfo"),
+		EndSession:        s.absURL("/end_session"),
 		DeviceEndpoint:    s.absURL("/device/code"),
 		Introspect:        s.absURL("/token/introspect"),
 		Subjects:          []string{"public"},
@@ -1109,6 +1111,10 @@ func (s *Server) handleUserInfo(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(claims)
+}
+
+func (s *Server) handleEndSession(w http.ResponseWriter, r *http.Request) {
+	s.renderError(r, w, http.StatusBadRequest, "Not implemented.")
 }
 
 func (s *Server) handlePasswordGrant(w http.ResponseWriter, r *http.Request, client storage.Client) {
