@@ -1112,7 +1112,12 @@ func (s *Server) handleUserInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) handleEndSession(w http.ResponseWriter, r *http.Request) {
-	s.renderError(r, w, http.StatusBadRequest, "Not implemented.")
+	redirectUri := r.URL.Query().Get("post_logout_redirect_uri")
+	if redirectUri == "" {
+		s.renderError(r, w, http.StatusBadRequest, "Required param: post_logout_redirect_uri")
+		return
+	}
+	http.Redirect(w, r, redirectUri, http.StatusFound)
 }
 
 func (s *Server) handlePasswordGrant(w http.ResponseWriter, r *http.Request, client storage.Client) {
